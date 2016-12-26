@@ -1,0 +1,184 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>connectFour</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+    body {
+        padding-top: 70px;
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <span class="navbar-brand">Connect Four</span>
+            </div>
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+          {{> App_body}}
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+
+<template name="App_body">
+  {{> Template.dynamic template=main}}
+</template>
+
+<template name="start">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <form class="joinForm">
+            <div class="input-group">
+                  <input required name="userName" type="text" class="form-control" placeholder="Input your user name">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Play!</button>
+                  </span>
+            </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template name="preGame">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <p class="lead">Hello {{ userName }}</p>
+            <p class="lead">
+                <button class="btn btn-lg btn-success createGame" href="#" role="button">Create Game</button>
+            </p>
+            <ul>
+              {{#each pendingGames}}
+                {{> pendingGame }}
+              {{/each}}
+            </ul>
+        </div>
+    </div>
+</template>
+
+<template name="pendingGame">
+     <p>{{createdAt}} - {{playerA}} <button class="btn btn-lg btn-success joinGame" href="#" role="button">Join Game</button></p>
+</template>
+
+<template name="game">
+    <div class="row">
+        <div class="col-xs-6 .col-md-4 text-center">
+            {{#if isPlayerA }}ICH:{{/if}} PlayerA {{game.playerA}} {{#if activePlayerA }}ACTIVE{{/if}}
+        </div>
+        <div class="col-xs-6 .col-md-4 text-center">
+            {{#if isPlayerB }}ICH:{{/if}} PlayerB {{game.playerB}} {{#if activePlayerB }}ACTIVE{{/if}}
+        </div>
+    </div>
+    <div class="row ">
+        <div class=".col-md-12 text-center">
+            <table width="100%" border="1">
+                {{#if isPlayerActive }}
+                <tr>
+                    <td>{{#if isCol0Full }}<button class="btn btn-lg btn-success makeTurnCol0" role="button">Make Turn</button>{{/if}}</td>
+                    <td>{{#if isCol1Full }}<button class="btn btn-lg btn-success makeTurnCol1" role="button">Make Turn</button>{{/if}}</td>
+                    <td>{{#if isCol2Full }}<button class="btn btn-lg btn-success makeTurnCol2" role="button">Make Turn</button>{{/if}}</td>
+                    <td>{{#if isCol3Full }}<button class="btn btn-lg btn-success makeTurnCol3" role="button">Make Turn</button>{{/if}}</td>
+                    <td>{{#if isCol4Full }}<button class="btn btn-lg btn-success makeTurnCol4" role="button">Make Turn</button>{{/if}}</td>
+                    <td>{{#if isCol5Full }}<button class="btn btn-lg btn-success makeTurnCol5" role="button">Make Turn</button>{{/if}}</td>
+                    <td>{{#if isCol6Full }}<button class="btn btn-lg btn-success makeTurnCol6" role="button">Make Turn</button>{{/if}}</td>
+                </tr>
+                {{/if}}
+                <tr>
+                    <td>{{ playerCol0Row0 }}</td>
+                    <td>{{ playerCol1Row0 }}</td>
+                    <td>{{ playerCol2Row0 }}</td>
+                    <td>{{ playerCol3Row0 }}</td>
+                    <td>{{ playerCol4Row0 }}</td>
+                    <td>{{ playerCol5Row0 }}</td>
+                    <td>{{ playerCol6Row0 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ playerCol0Row1 }}</td>
+                    <td>{{ playerCol1Row1 }}</td>
+                    <td>{{ playerCol2Row1 }}</td>
+                    <td>{{ playerCol3Row1 }}</td>
+                    <td>{{ playerCol4Row1 }}</td>
+                    <td>{{ playerCol5Row1 }}</td>
+                    <td>{{ playerCol6Row1 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ playerCol0Row2 }}</td>
+                    <td>{{ playerCol1Row2 }}</td>
+                    <td>{{ playerCol2Row2 }}</td>
+                    <td>{{ playerCol3Row2 }}</td>
+                    <td>{{ playerCol4Row2 }}</td>
+                    <td>{{ playerCol5Row2 }}</td>
+                    <td>{{ playerCol6Row2 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ playerCol0Row3 }}</td>
+                    <td>{{ playerCol1Row3 }}</td>
+                    <td>{{ playerCol2Row3 }}</td>
+                    <td>{{ playerCol3Row3 }}</td>
+                    <td>{{ playerCol4Row3 }}</td>
+                    <td>{{ playerCol5Row3 }}</td>
+                    <td>{{ playerCol6Row3 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ playerCol0Row4 }}</td>
+                    <td>{{ playerCol1Row4 }}</td>
+                    <td>{{ playerCol2Row4 }}</td>
+                    <td>{{ playerCol3Row4 }}</td>
+                    <td>{{ playerCol4Row4 }}</td>
+                    <td>{{ playerCol5Row4 }}</td>
+                    <td>{{ playerCol6Row4 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ playerCol0Row5 }}</td>
+                    <td>{{ playerCol1Row5 }}</td>
+                    <td>{{ playerCol2Row5 }}</td>
+                    <td>{{ playerCol3Row5 }}</td>
+                    <td>{{ playerCol4Row5 }}</td>
+                    <td>{{ playerCol5Row5 }}</td>
+                    <td>{{ playerCol6Row5 }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</template>
+
+<template name="gameOver">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <p class="lead">Player {{ winner }} wins!</p>
+            <p class="lead">
+                <button class="btn btn-lg btn-success startNewGame" href="#" role="button">Start new Game</button>
+            </p>
+        </div>
+    </div>
+</template>
